@@ -56,6 +56,7 @@
     <ImageView
         android:contentDescription="@string/icon_company"
         android:id="@+id/iv_company"
+        android:visibility="gone"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_marginStart="8dp"
@@ -71,6 +72,7 @@
         android:layout_marginStart="4dp"
         android:gravity="center"
         android:text="@string/company"
+        android:visibility="gone"
         android:textAlignment="center"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/iv_company"
@@ -81,6 +83,7 @@
         android:id="@+id/iv_location"
         android:layout_width="16dp"
         android:layout_height="16dp"
+        android:visibility="gone"
         android:layout_marginStart="14dp"
         android:layout_marginTop="32dp"
         android:src="@drawable/ic_location"
@@ -94,91 +97,42 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:gravity="center"
+        android:visibility="gone"
         android:text="@string/location"
         android:textSize="12sp"
         app:layout_constraintLeft_toRightOf="@id/iv_location"
         app:layout_constraintTop_toTopOf="@+id/iv_location" />
 
-    <TextView
-        android:id="@+id/follower_user"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/value"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/following"
-        app:layout_constraintTop_toTopOf="@+id/following" />
-
-    <TextView
-        android:id="@+id/follower"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:text="@string/followers"
-        app:layout_constraintTop_toTopOf="@id/follower_user"
-        app:layout_constraintStart_toEndOf="@id/follower_user" />
-
-
-    <TextView
-        android:id="@+id/repository_user"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/value"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/follower"
-        app:layout_constraintTop_toTopOf="@+id/follower" />
-
-    <TextView
-        android:id="@+id/repository"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:text="@string/repository"
-        app:layout_constraintTop_toTopOf="@id/repository_user"
-        app:layout_constraintStart_toEndOf="@id/repository_user" />
-
-    <TextView
-        android:id="@+id/following_user"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/value"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/company_user" />
-
-    <TextView
-        android:id="@+id/following"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:text="@string/following"
-        app:layout_constraintStart_toEndOf="@id/following_user"
-        app:layout_constraintTop_toTopOf="@id/following_user" />
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
+        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/follower"
+        app:layout_constraintTop_toBottomOf="@+id/usernameUser"
         app:tabTextColor="@android:color/white" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabs" />
+        app:layout_constraintTop_toBottomOf="@+id/tabs"
+        android:layout_height="0dp"/>
 
+    <ProgressBar
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

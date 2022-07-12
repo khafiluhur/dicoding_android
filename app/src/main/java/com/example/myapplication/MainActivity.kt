@@ -1,22 +1,32 @@
 package com.example.myapplication
 
-import android.annotation.SuppressLint
-import android.app.SearchManager
-import android.content.Context
-import android.content.Intent
-import android.content.res.Configuration
-import androidx.appcompat.app.AppCompatActivity
+import retrofit2.Call
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
+import retrofit2.Callback
+import retrofit2.Response
+import android.content.Intent
+import android.content.Context
 import android.widget.SearchView
-import android.widget.Toast
+import android.app.SearchManager
+import android.content.res.Configuration
+import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.Utils.ApiConfig
+import com.example.myapplication.Models.UserResponse
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.myapplication.Models.SearchResponse
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplication.Adapater.ListUserAdapater
+import com.example.myapplication.Utils.OnItemClickCallback
 import com.example.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val list = ArrayList<User>()
+
+    private val adapter: ListUserAdapater by lazy {
+        ListUserAdapater()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,10 +34,39 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.title = resources.getString(R.string.list_user)
+        listUser()
+    }
 
-        list.addAll(listUsers)
-        showRecyclerList()
+    private fun listUser() {
+        showLoading(true)
+        val client = ApiConfig.getApiService().getListUser()
+        client.enqueue(object : Callback<ArrayList<UserResponse>> {
+            override fun onResponse(
+                call: Call<ArrayList<UserResponse>>,
+                response: Response<ArrayList<UserResponse>>
+            ) {
+                showLoading(false)
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        adapter.addDataToList(responseBody)
+                        showRecyclerList()
+                    }
+                }
+            }
 
+            override fun onFailure(call: Call<ArrayList<UserResponse>>, t: Throwable) {
+                showLoading(false)
+            }
+        })
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -40,42 +79,58 @@ class MainActivity : AppCompatActivity() {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         searchView.queryHint = resources.getString(R.string.search_hint)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            /*
-            Gunakan method ini ketika search selesai atau OK
-             */
             override fun onQueryTextSubmit(query: String): Boolean {
-                Toast.makeText(this@MainActivity, query, Toast.LENGTH_SHORT).show()
+                showLoading(true)
+                val client = ApiConfig.getApiService().getSearch(query)
+                client.enqueue(object : Callback<SearchResponse> {
+                    override fun onResponse(
+                        call: Call<SearchResponse>,
+                        response: Response<SearchResponse>
+                    ) {
+                        showLoading(false)
+                        if (response.isSuccessful) {
+                            val responseBody = response.body()
+                            if (responseBody != null) {
+                                adapter.addDataToList(responseBody.items)
+                                showRecyclerList()
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+                        showLoading(false)
+                    }
+                })
                 searchView.clearFocus()
                 return true
             }
 
-            /*
-            Gunakan method ini untuk merespon tiap perubahan huruf pada searchView
-             */
             override fun onQueryTextChange(newText: String): Boolean {
+                showLoading(true)
+                val client = ApiConfig.getApiService().getSearch(newText)
+                client.enqueue(object : Callback<SearchResponse> {
+                    override fun onResponse(
+                        call: Call<SearchResponse>,
+                        response: Response<SearchResponse>
+                    ) {
+                        showLoading(false)
+                        if (response.isSuccessful) {
+                            val responseBody = response.body()
+                            if (responseBody != null) {
+                                adapter.addDataToList(responseBody.items)
+                                showRecyclerList()
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+                        showLoading(false)
+                    }
+                })
                 return false
             }
         })
         return true
-    }
-
-    private val listUsers: ArrayList<User>
-    @SuppressLint("Recycle")
-    get() {
-        val dataName = resources.getStringArray(R.array.name)
-        val dataFollower = resources.getStringArray(R.array.followers)
-        val dataPhoto = resources.obtainTypedArray(R.array.avatar)
-        val dataFollowing = resources.getStringArray(R.array.following)
-        val dataRepository = resources.getStringArray(R.array.repository)
-        val dataCompany = resources.getStringArray(R.array.company)
-        val dataUsername = resources.getStringArray(R.array.username)
-        val dataLocation = resources.getStringArray(R.array.location)
-        val listUser = ArrayList<User>()
-        for (i in dataName.indices) {
-            val user = User(dataName[i],dataFollower[i],dataPhoto.getResourceId(i, -1),dataFollowing[i],dataRepository[i],dataCompany[i],dataUsername[i],dataLocation[i])
-            listUser.add(user)
-        }
-        return listUser
     }
 
     private fun showRecyclerList() {
@@ -84,22 +139,13 @@ class MainActivity : AppCompatActivity() {
         } else {
             LinearLayoutManager(this)
         }
-        val listUserAdapater = ListUserAdapater(list)
-        binding.rvUser.adapter = listUserAdapater
+        binding.rvUser.adapter = adapter
         binding.rvUser.setHasFixedSize(true)
-
-        listUserAdapater.setOnItemClickCallback(object : ListUserAdapater.OnItemClickCallback {
-            override fun onItemClicked(data: User) {
-                val intentToDetail = Intent(this@MainActivity, DetailActivity::class.java)
-                intentToDetail.putExtra(DetailActivity.AVATAR, data.avatar)
-                intentToDetail.putExtra(DetailActivity.NAME, data.name)
-                intentToDetail.putExtra(DetailActivity.USERNAME, data.username)
-                intentToDetail.putExtra(DetailActivity.LOCATION, data.location)
-                intentToDetail.putExtra(DetailActivity.COMPANY, data.company)
-                intentToDetail.putExtra(DetailActivity.FOLLOWING, data.following)
-                intentToDetail.putExtra(DetailActivity.FOLLOWER, data.follower)
-                intentToDetail.putExtra(DetailActivity.REPOSITORY, data.repository)
-                startActivity(intentToDetail)
+        adapter.setOnItemClickCallback(object : OnItemClickCallback {
+            override fun onItemClicked(user: UserResponse) {
+                val intentDetail = Intent(this@MainActivity, DetailActivity::class.java)
+                intentDetail.putExtra(DetailActivity.KEY_USER, user)
+                startActivity(intentDetail)
             }
         })
     }
