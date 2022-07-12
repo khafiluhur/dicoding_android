@@ -1,21 +1,20 @@
-package com.example.myapplication.Fragment
+package com.example.myapplication.Fragments
 
-import android.content.Intent
+import retrofit2.Call
 import android.os.Bundle
 import android.view.View
+import retrofit2.Response
 import android.view.ViewGroup
+import android.content.Intent
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myapplication.Models.UserResponse
-import com.example.myapplication.Adapater.ListUserAdapater
 import com.example.myapplication.DetailActivity
 import com.example.myapplication.Utils.ApiConfig
+import com.example.myapplication.Models.UserResponse
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplication.Adapaters.ListUserAdapater
 import com.example.myapplication.Utils.OnItemClickCallback
-import com.example.myapplication.databinding.FragmentFollowersBinding
 import com.example.myapplication.databinding.FragmentFollowingBinding
-import retrofit2.Call
-import retrofit2.Response
 
 class FollowingFragment : Fragment() {
     private var _binding: FragmentFollowingBinding? = null

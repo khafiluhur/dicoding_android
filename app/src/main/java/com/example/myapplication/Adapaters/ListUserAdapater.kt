@@ -1,13 +1,14 @@
-package com.example.myapplication.Adapater
+package com.example.myapplication.Adapaters
+
 
 import android.view.ViewGroup
 import android.view.LayoutInflater
-import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
-import com.example.myapplication.Utils.loadImage
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.Utils.loadImage
 import com.example.myapplication.Models.UserResponse
 import com.example.myapplication.Utils.OnItemClickCallback
+import com.example.myapplication.Utils.UserDiffUtilCallback
 import com.example.myapplication.databinding.ItemUserBinding
 
 class ListUserAdapater : RecyclerView.Adapter<ListUserAdapater.ListViewHolder>() {
@@ -16,12 +17,11 @@ class ListUserAdapater : RecyclerView.Adapter<ListUserAdapater.ListViewHolder>()
     private lateinit var onItemClickCallback: OnItemClickCallback
 
     fun addDataToList(items: ArrayList<UserResponse>) {
+        val diffResult = DiffUtil.calculateDiff(UserDiffUtilCallback(listUserResponse, items))
+
         listUserResponse.clear()
         listUserResponse.addAll(items)
-        //Penerapan method notifyDatasetChanged() saat ini tidak disarankan,
-        // untuk kedepannya kamu bisa menggunakan DiffUtils untuk melakukan update data pada recyclerview.
-        // Sesuaikan pada class yang lainnya ya.
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
@@ -48,5 +48,23 @@ class ListUserAdapater : RecyclerView.Adapter<ListUserAdapater.ListViewHolder>()
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
+    }
+
+    private class DiffCallback : DiffUtil.ItemCallback<ArrayList<UserResponse>>() {
+
+        override fun areItemsTheSame(
+            oldItem: ArrayList<UserResponse>,
+            newItem: ArrayList<UserResponse>
+        ): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(
+            oldItem: ArrayList<UserResponse>,
+            newItem: ArrayList<UserResponse>
+        ): Boolean {
+            return oldItem == newItem
+        }
+
     }
 }

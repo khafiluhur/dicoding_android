@@ -1,4 +1,4 @@
-package com.example.myapplication.Fragment
+package com.example.myapplication.Fragments
 
 import retrofit2.Call
 import android.os.Bundle
@@ -12,7 +12,7 @@ import com.example.myapplication.DetailActivity
 import com.example.myapplication.Utils.ApiConfig
 import com.example.myapplication.Models.UserResponse
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myapplication.Adapater.ListUserAdapater
+import com.example.myapplication.Adapaters.ListUserAdapater
 import com.example.myapplication.Utils.OnItemClickCallback
 import com.example.myapplication.databinding.FragmentFollowersBinding
 

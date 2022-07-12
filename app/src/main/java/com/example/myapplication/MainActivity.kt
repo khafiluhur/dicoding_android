@@ -17,12 +17,13 @@ import com.example.myapplication.Models.UserResponse
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.Models.SearchResponse
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myapplication.Adapater.ListUserAdapater
+import com.example.myapplication.Adapaters.ListUserAdapater
 import com.example.myapplication.Utils.OnItemClickCallback
 import com.example.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
 
     private val adapter: ListUserAdapater by lazy {
         ListUserAdapater()
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         supportActionBar?.title = resources.getString(R.string.list_user)

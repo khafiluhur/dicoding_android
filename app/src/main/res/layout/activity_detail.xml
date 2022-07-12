@@ -8,7 +8,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
         android:layout_height="230dp"
         android:contentDescription="@string/background_profile"
         android:src="@drawable/github_cover"

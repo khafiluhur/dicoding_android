@@ -10,14 +10,16 @@ import com.example.myapplication.databinding.ActivitySplashScreenBinding
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
-    private lateinit var binding: ActivitySplashScreenBinding
+
+    private var _binding: ActivitySplashScreenBinding? = null
+    private val binding get() = _binding!!
     companion object {
         const val delay = 3000L
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySplashScreenBinding.inflate(layoutInflater)
+        _binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         Handler(Looper.getMainLooper()).postDelayed({
