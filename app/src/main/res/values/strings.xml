@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Github</string>
     <string name="detail_user">Detail User</string>
+    <string name="detail_user_favorite">Detail User Favorite</string>
     <string name="list_user">Github User\'s</string>
     <string name="background_profile">Background Profile</string>
     <string name="avatar_profile">Avatar Profile</string>
@@ -19,6 +20,16 @@
 
     <string name="search">Search</string>
     <string name="search_hint">Search User</string>
+    <string name="setting">Setting</string>
+    <string name="favorite">Favorite</string>
+
+    <string name="dark_mode">Dark Mode</string>
+    <string name="themes">Themes</string>
+
+    <!-- Message Favorite -->
+    <string name="added">Success Add To Favorite</string>
+    <string name="same">User Favorite Same</string>
+    <string name="delete">Success Delete To Favorite</string>
 
     <!-- Fragment -->
     <string name="tab_text_1">Followers</string>

@@ -1,7 +1,7 @@
-package com.example.myapplication.Utils
+package com.example.myapplication.helper
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.myapplication.Models.UserResponse
+import com.example.myapplication.models.UserResponse
 
 class UserDiffUtilCallback(private val oldList: ArrayList<UserResponse>, private val newList: ArrayList<UserResponse>) : DiffUtil.Callback() {
     override fun getOldListSize(): Int {

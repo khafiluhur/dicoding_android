@@ -1,4 +1,4 @@
-package com.example.myapplication.Fragments
+package com.example.myapplication.fragments
 
 import retrofit2.Call
 import android.os.Bundle
@@ -9,12 +9,13 @@ import android.content.Intent
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import com.example.myapplication.DetailActivity
-import com.example.myapplication.Utils.ApiConfig
-import com.example.myapplication.Models.UserResponse
+import com.example.myapplication.utils.ApiConfig
+import com.example.myapplication.models.UserResponse
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myapplication.Adapaters.ListUserAdapater
-import com.example.myapplication.Utils.OnItemClickCallback
+import com.example.myapplication.adapaters.ListUserAdapater
+import com.example.myapplication.utils.OnItemClickCallback
 import com.example.myapplication.databinding.FragmentFollowingBinding
+import java.lang.reflect.Type
 
 class FollowingFragment : Fragment() {
     private var _binding: FragmentFollowingBinding? = null
@@ -39,7 +40,7 @@ class FollowingFragment : Fragment() {
 
     private fun setListFollowing(user: UserResponse) {
         showLoading(true)
-        val client = ApiConfig.getApiService().getFollowing(user.login!!)
+        val client = ApiConfig.getApiService().getFollowerFollowing(user.login!!, TYPE)
         client.enqueue(object : retrofit2.Callback<ArrayList<UserResponse>> {
             override fun onResponse(
                 call: Call<ArrayList<UserResponse>>,
@@ -84,6 +85,7 @@ class FollowingFragment : Fragment() {
 
     companion object {
         private const val ARG_PARCEL = "user_model"
+        private const val TYPE = "following"
 
         @JvmStatic
         fun newInstance(userResponse: UserResponse) =

@@ -13,9 +13,6 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private var _binding: ActivitySplashScreenBinding? = null
     private val binding get() = _binding!!
-    companion object {
-        const val delay = 3000L
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,5 +24,9 @@ class SplashScreenActivity : AppCompatActivity() {
             startActivity(intent)
             finishAffinity()
         }, delay)
+    }
+
+    companion object {
+        const val delay = 3000L
     }
 }

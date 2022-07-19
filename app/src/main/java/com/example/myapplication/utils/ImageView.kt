@@ -1,4 +1,4 @@
-package com.example.myapplication.Utils
+package com.example.myapplication.utils
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide

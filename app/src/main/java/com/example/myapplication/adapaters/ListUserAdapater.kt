@@ -1,14 +1,14 @@
-package com.example.myapplication.Adapaters
+package com.example.myapplication.adapaters
 
 
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Utils.loadImage
-import com.example.myapplication.Models.UserResponse
-import com.example.myapplication.Utils.OnItemClickCallback
-import com.example.myapplication.Utils.UserDiffUtilCallback
+import com.example.myapplication.utils.loadImage
+import com.example.myapplication.models.UserResponse
+import com.example.myapplication.utils.OnItemClickCallback
+import com.example.myapplication.helper.UserDiffUtilCallback
 import com.example.myapplication.databinding.ItemUserBinding
 
 class ListUserAdapater : RecyclerView.Adapter<ListUserAdapater.ListViewHolder>() {
@@ -48,23 +48,5 @@ class ListUserAdapater : RecyclerView.Adapter<ListUserAdapater.ListViewHolder>()
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
-    }
-
-    private class DiffCallback : DiffUtil.ItemCallback<ArrayList<UserResponse>>() {
-
-        override fun areItemsTheSame(
-            oldItem: ArrayList<UserResponse>,
-            newItem: ArrayList<UserResponse>
-        ): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(
-            oldItem: ArrayList<UserResponse>,
-            newItem: ArrayList<UserResponse>
-        ): Boolean {
-            return oldItem == newItem
-        }
-
     }
 }

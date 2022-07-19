@@ -1,11 +1,11 @@
-package com.example.myapplication.Models
+package com.example.myapplication.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import com.google.gson.annotations.SerializedName
 
 @Parcelize
-data class UseraDetailResponse(
+data class UserDetailResponse(
 
 	@field:SerializedName("gists_url")
 	val gistsUrl: String? = null,

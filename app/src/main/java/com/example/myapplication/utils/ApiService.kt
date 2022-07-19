@@ -1,8 +1,8 @@
-package com.example.myapplication.Utils
+package com.example.myapplication.utils
 
 import retrofit2.Call
 import retrofit2.http.*
-import com.example.myapplication.Models.*
+import com.example.myapplication.models.*
 import com.example.myapplication.BuildConfig
 
 interface ApiService {
@@ -10,6 +10,10 @@ interface ApiService {
     @GET("users")
     @Headers("Authorization: token $API_TOKEN", "UserResponse-Agent: request")
     fun getListUser(): Call<ArrayList<UserResponse>>
+
+    @GET("users/{username}")
+    @Headers("Authorization: token $API_TOKEN", "UserResponse-Agent: request")
+    fun getByIdUser(@Path("username") username: String): Call<UserResponse>
 
     @GET("search/users")
     @Headers("Authorization: token $API_TOKEN", "UserResponse-Agent: request")
@@ -19,18 +23,13 @@ interface ApiService {
     @Headers("Authorization: token $API_TOKEN", "UserResponse-Agent: request")
     fun getDetailUser(
         @Path("username") username: String
-    ): Call<UseraDetailResponse>
+    ): Call<UserDetailResponse>
 
-    @GET("users/{username}/followers")
+    @GET("users/{username}/{type}")
     @Headers("Authorization: token $API_TOKEN", "UserResponse-Agent: request")
-    fun getFollower(
-        @Path("username") username: String
-    ): Call<ArrayList<UserResponse>>
-
-    @GET("users/{username}/following")
-    @Headers("Authorization: token $API_TOKEN", "UserResponse-Agent: request")
-    fun getFollowing(
-        @Path("username") username: String
+    fun getFollowerFollowing(
+        @Path("username") username: String,
+        @Path("type") type: String
     ): Call<ArrayList<UserResponse>>
 
     companion object {
